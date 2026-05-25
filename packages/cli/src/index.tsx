@@ -3,17 +3,34 @@ import { createRoot } from "@opentui/react";
 import { Header } from "./components/header";
 import { StatusBar } from "./components/status-bar";
 import { InputBar } from "./components/input-bar";
+import { Background } from "./components/background";
 
 function App() {
+
+  const name = "John";
+
   return (
     <box alignItems="center" justifyContent="center"  width={"100%"} height={"100%"} gap={2}>
+      <Background />
       <Header />
       <box width={"100%"} maxWidth={80} paddingX={2}>
-        <InputBar onSubmit={() => {}}/>
+        <box
+          paddingX={1}
+          flexDirection="row"
+          gap={1}
+        >
+          <text>Hello</text>
+          <text fg={"gray"} >{name}</text>
+          <text>What are we fixing today?</text>
+        </box>
+        <InputBar onSubmit={() => { }} />
       </box>
     </box>
   );
 }
 
-const renderer = await createCliRenderer();
+const renderer = await createCliRenderer({
+  targetFps: 60,
+  exitOnCtrlC: false,
+});
 createRoot(renderer).render(<App />);
