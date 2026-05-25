@@ -93,7 +93,15 @@ export function InputBar({ onSubmit, disabled = false }: Props) {
   return (
     <box width={"100%"} alignItems="center">
       <Border borderColor="cyan" borderStyle="line" width={"100%"} position={["left"]}>
-        <box position="relative" justifyContent="center" paddingX={2} paddingY={1} backgroundColor={"#1A1A24"} width={"100%"} gap={1}>
+        <box
+          position="relative"
+          justifyContent="center"
+          paddingX={2}
+          paddingY={1}
+          backgroundColor={"#1A1A24"}
+          width={"100%"}
+          gap={1}
+        >
           {showCommandMenu && (
             <box
               position="absolute"
@@ -114,7 +122,7 @@ export function InputBar({ onSubmit, disabled = false }: Props) {
           <textarea
             ref={textareaRef}
             focused={!disabled}
-            placeholder={"What are we fixing today?"}
+            placeholder={"analyze the codebase and find vulnerability..."}
             keyBindings={TEXTAREA_KEY_BINDINGS}
             onContentChange={handleTextareaContentChange}
           />
