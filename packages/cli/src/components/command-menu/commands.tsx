@@ -3,42 +3,52 @@ import type { Command } from "./types";
 export const COMMANDS: Command[] = [
   {
     name: "new",
-    description: "Start a new conversation",
+    description: "Start a fresh conversation",
     value: "/new"
   },
   {
     name: "login",
-    description: "Login to your account",
+    description: "Sign in with your API key or credentials",
     value: "/login"
   },
   {
     name: "logout",
-    description: "Logout from your account",
+    description: "Sign out and clear saved credentials",
     value: "/logout"
   },
   {
     name: "models",
-    description: "Select AI models",
+    description: "Switch between available AI models",
     value: "/models"
   },
   {
+    name: "background",
+    description: "Change the terminal background art",
+    value: "/background"
+  },
+  {
     name: "providers",
-    description: "Select AI providers (BYOK)",
+    description: "Select AI provider and manage your API keys",
     value: "/providers"
   },
   {
     name: "mode",
-    description: "Agent modes",
+    description: "Toggle between agent modes (auto, plan, ask)",
     value: "/mode"
   },
   {
     name: "dumbo",
-    description: "Caveman mode - only code, no talk",
+    description: "Caveman mode: code-only responses, no explanations",
     value: "/dumbo"
   },
   {
+    name: "marketplace",
+    description: "Install skills, MCPs, themes, and other add-ons",
+    value: "/marketplace"
+  },
+  {
     name: "exit",
-    description: "Quit the application",
+    description: "Close the application",
     value: "/bye",
     action: (ctx) => {
       ctx.exit();
