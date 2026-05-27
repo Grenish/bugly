@@ -44,7 +44,19 @@ export const COMMANDS: Command[] = [
   {
     name: "marketplace",
     description: "Install skills, MCPs, themes, and other add-ons",
-    value: "/marketplace"
+    value: "/marketplace",
+    action: (ctx) => {
+      ctx.dialog.open({
+        title: "Marketplace",
+        description: "Install skills, MCPs, themes and other add-ons to bugly.",
+        children: <text>Work in progress...</text>,
+      })
+    }
+  },
+  {
+    name: "keybindings",
+    description: "View and customize CLI keyboard shortcuts",
+    value: "/keybindings"
   },
   {
     name: "exit",
