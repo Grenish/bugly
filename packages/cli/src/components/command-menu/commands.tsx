@@ -4,42 +4,42 @@ export const COMMANDS: Command[] = [
   {
     name: "new",
     description: "Start a fresh conversation",
-    value: "/new"
+    value: "/new",
   },
   {
     name: "login",
     description: "Sign in with your API key or credentials",
-    value: "/login"
+    value: "/login",
   },
   {
     name: "logout",
     description: "Sign out and clear saved credentials",
-    value: "/logout"
+    value: "/logout",
   },
   {
     name: "models",
     description: "Switch between available AI models",
-    value: "/models"
+    value: "/models",
   },
   {
     name: "background",
     description: "Change the terminal background art",
-    value: "/background"
+    value: "/background",
   },
   {
     name: "providers",
     description: "Select AI provider and manage your API keys",
-    value: "/providers"
+    value: "/providers",
   },
   {
     name: "mode",
     description: "Toggle between agent modes (auto, plan, ask)",
-    value: "/mode"
+    value: "/mode",
   },
   {
     name: "dumbo",
     description: "Caveman mode: code-only responses, no explanations",
-    value: "/dumbo"
+    value: "/dumbo",
   },
   {
     name: "marketplace",
@@ -50,13 +50,13 @@ export const COMMANDS: Command[] = [
         title: "Marketplace",
         description: "Install skills, MCPs, themes and other add-ons to bugly.",
         children: <text>Work in progress...</text>,
-      })
-    }
+      });
+    },
   },
   {
     name: "keybindings",
     description: "View and customize CLI keyboard shortcuts",
-    value: "/keybindings"
+    value: "/keybindings",
   },
   {
     name: "exit",
@@ -64,6 +64,6 @@ export const COMMANDS: Command[] = [
     value: "/bye",
     action: (ctx) => {
       ctx.exit();
-    }
-  }
-]
+    },
+  },
+];

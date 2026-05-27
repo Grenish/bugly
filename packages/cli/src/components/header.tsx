@@ -8,5 +8,5 @@ export function Header() {
         </box>
       </box>
     </box>
-  )
+  );
 }

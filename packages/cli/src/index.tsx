@@ -8,7 +8,6 @@ import { KeyboardLayerProvider } from "./providers/keyboard-layer";
 import { DialogProvider } from "./providers/dialog";
 
 function App() {
-
   const name = "John";
 
   return (
@@ -19,16 +18,12 @@ function App() {
             <Background />
             <Header />
             <box width={"100%"} maxWidth={80} paddingX={2}>
-              <box
-                paddingX={1}
-                flexDirection="row"
-                gap={1}
-              >
+              <box paddingX={1} flexDirection="row" gap={1}>
                 <text>Hello</text>
-                <text fg={"gray"} >{name}</text>
+                <text fg={"gray"}>{name}</text>
                 <text>What are we fixing today?</text>
               </box>
-              <InputBar onSubmit={() => { }} />
+              <InputBar onSubmit={() => {}} />
             </box>
           </box>
         </ToastProvider>

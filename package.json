@@ -5,7 +5,12 @@
     "packages/*"
   ],
   "scripts": {
-    "dev:cli": "bun run --watch packages/cli/src/index.tsx"
+    "dev:cli": "bun run --watch packages/cli/src/index.tsx",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "devDependencies": {
+    "prettier": "^3.5.0"
   },
   "dependencies": {
     "simple-git": "^3.36.0"

@@ -31,21 +31,11 @@ export function StatusBar() {
           
         </text>
         <text>gemini-3.1-pro</text>
-        <text>
-          󰧑
-        </text>
+        <text>󰧑</text>
         <text>High</text>
       </box>
       <box flexDirection="row" gap={1}>
-        {isGitInit ? (
-          <text>
-            
-          </text>
-        ) : (
-          <text>
-            
-          </text>
-        )}
+        {isGitInit ? <text></text> : <text></text>}
 
         <text>{currentDir}</text>
         {isGitInit && currentBranch && (

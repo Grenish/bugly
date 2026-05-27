@@ -71,7 +71,7 @@ const DOT_CHARS: BorderCharacters = {
 /** Parses "gradient(#aabbcc, #ddeeff)" and returns the midpoint hex color. */
 function resolveColor(color: string): string {
   const gradientMatch = color.match(
-    /^gradient\(\s*(#[0-9a-fA-F]{6})\s*,\s*(#[0-9a-fA-F]{6})\s*\)$/i,
+    /^gradient\(\s*(#[0-9a-fA-F]{6})\s*,\s*(#[0-9a-fA-F]{6})\s*\)$/i
   );
   if (gradientMatch) {
     return lerpHex(gradientMatch[1]!, gradientMatch[2]!, 0.5);
@@ -92,14 +92,10 @@ function lerpHex(hex1: string, hex2: string, t: number): string {
   return `#${hex(lerp(r1, r2))}${hex(lerp(g1, g2))}${hex(lerp(b1, b2))}`;
 }
 
-function resolveSides(
-  position: BorderPosition | BorderPosition[],
-): boolean | BorderSides[] {
+function resolveSides(position: BorderPosition | BorderPosition[]): boolean | BorderSides[] {
   const positions = Array.isArray(position) ? position : [position];
   if (positions.includes("all")) return true;
-  return positions.filter(
-    (p): p is Exclude<BorderPosition, "all"> => p !== "all",
-  );
+  return positions.filter((p): p is Exclude<BorderPosition, "all"> => p !== "all");
 }
 
 // Component
@@ -146,12 +142,7 @@ export function Border({
   for (let i = depth; i > 0; i--) {
     const isOuter = i === 1;
     content = (
-      <box
-        {...(isOuter ? rest : {})}
-        border={sides}
-        borderColor={color}
-        customBorderChars={chars}
-      >
+      <box {...(isOuter ? rest : {})} border={sides} borderColor={color} customBorderChars={chars}>
         {content}
       </box>
     );

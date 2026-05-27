@@ -4,4 +4,4 @@ export type DialogConfig = {
   title: string;
   description?: string;
   children: ReactNode;
-}
+};

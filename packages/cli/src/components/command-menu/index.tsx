@@ -13,14 +13,14 @@ type CommandMenuProps = {
   scrollRef: RefObject<ScrollBoxRenderable | null>;
   onSelect: (index: number) => void;
   onExecute: (index: number) => void;
-}
+};
 
 export function CommandMenu({
   query,
   selectedIndex,
   scrollRef,
   onSelect,
-  onExecute
+  onExecute,
 }: CommandMenuProps) {
   const filtered = getFilteredCommands(query);
   const visibleHeight = Math.min(filtered.length, MAX_VISIBLE_ITEMS);
@@ -28,11 +28,9 @@ export function CommandMenu({
   if (filtered.length === 0) {
     return (
       <box paddingX={1}>
-        <text attributes={TextAttributes.DIM}>
-          No matching commands
-        </text>
+        <text attributes={TextAttributes.DIM}>No matching commands</text>
       </box>
-    )
+    );
   }
 
   return (
@@ -52,18 +50,18 @@ export function CommandMenu({
             onMouseDown={() => onExecute(i)}
           >
             <box width={COMMAND_COL_WIDTH} flexShrink={0}>
-              <text selectable={false} fg={isSelected? "black": "white"}>
+              <text selectable={false} fg={isSelected ? "black" : "white"}>
                 /{cmd.name}
               </text>
             </box>
             <box>
-              <text selectable={false} fg={isSelected? "black": "gray"}>
+              <text selectable={false} fg={isSelected ? "black" : "gray"}>
                 {cmd.description}
               </text>
             </box>
           </box>
-        )
+        );
       })}
     </scrollbox>
-  )
+  );
 }

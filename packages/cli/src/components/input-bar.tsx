@@ -18,10 +18,10 @@ type Props = {
 
 export function InputBar({ onSubmit, disabled = false }: Props) {
   const textareaRef = useRef<TextareaRenderable>(null);
-  const onSubmitRef = useRef<() => void>(() => { });
+  const onSubmitRef = useRef<() => void>(() => {});
   const renderer = useRenderer();
-  const toast = useToast()
-  const dialog = useDialog()
+  const toast = useToast();
+  const dialog = useDialog();
   const { setResponder, isTopLayer } = useKeyboardLayer();
 
   const {
@@ -31,38 +31,42 @@ export function InputBar({ onSubmit, disabled = false }: Props) {
     scrollRef,
     handleContentChange,
     resolveCommand,
-    setSelectedIndex
+    setSelectedIndex,
   } = useCommandMenu();
 
-  const handleCommand = useCallback((
-    command: Command | undefined
-  ) => {
-    const textarea = textareaRef.current;
-    if (!textarea || !command) return;
+  const handleCommand = useCallback(
+    (command: Command | undefined) => {
+      const textarea = textareaRef.current;
+      if (!textarea || !command) return;
 
-    textarea.setText("");
+      textarea.setText("");
 
-    if (command.action) {
-      command.action({
-        exit: () => renderer.destroy(),
-        toast,
-        dialog,
-      })
-    } else {
-      textarea.insertText(command.value + " ")
-    }
-  }, [renderer, toast, dialog])
+      if (command.action) {
+        command.action({
+          exit: () => renderer.destroy(),
+          toast,
+          dialog,
+        });
+      } else {
+        textarea.insertText(command.value + " ");
+      }
+    },
+    [renderer, toast, dialog]
+  );
 
-  const handleCommandExecute = useCallback((index: number) => {
-    const command = resolveCommand(index);
-    handleCommand(command)
-  }, [resolveCommand, handleCommand])
+  const handleCommandExecute = useCallback(
+    (index: number) => {
+      const command = resolveCommand(index);
+      handleCommand(command);
+    },
+    [resolveCommand, handleCommand]
+  );
 
   const handleTextareaContentChange = useCallback(() => {
     const textarea = textareaRef.current;
     if (!textarea) return;
 
-    handleContentChange(textarea.plainText)
+    handleContentChange(textarea.plainText);
   }, [handleContentChange]);
 
   const handleSubmit = useCallback(() => {
@@ -76,8 +80,8 @@ export function InputBar({ onSubmit, disabled = false }: Props) {
 
     onSubmit(text);
 
-    textarea.setText("")
-  }, [disabled, onSubmit])
+    textarea.setText("");
+  }, [disabled, onSubmit]);
 
   useEffect(() => {
     const textarea = textareaRef.current;
@@ -86,7 +90,7 @@ export function InputBar({ onSubmit, disabled = false }: Props) {
     textarea.onSubmit = () => {
       onSubmitRef.current();
     };
-  }, [])
+  }, []);
 
   onSubmitRef.current = () => {
     if (disabled) return;
@@ -96,7 +100,7 @@ export function InputBar({ onSubmit, disabled = false }: Props) {
       return;
     }
     handleSubmit();
-  }
+  };
 
   useEffect(() => {
     setResponder("base", () => {
@@ -109,9 +113,9 @@ export function InputBar({ onSubmit, disabled = false }: Props) {
       }
 
       return false;
-    })
-    return () => setResponder("base", null)
-  }, [disabled, setResponder])
+    });
+    return () => setResponder("base", null);
+  }, [disabled, setResponder]);
 
   return (
     <box width={"100%"} alignItems="center">

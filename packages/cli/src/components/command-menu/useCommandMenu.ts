@@ -32,10 +32,10 @@ export function useCommandMenu(): UseCommandMenuReturn {
   const close = () => {
     setShowCommandMenu(false);
     pop("command");
-  }
+  };
 
   const closeMenu = useCallback(() => {
-    close()
+    close();
     return true;
   }, [pop]);
 
@@ -61,13 +61,16 @@ export function useCommandMenu(): UseCommandMenuReturn {
     setShowCommandMenu(isCommand);
   }, []);
 
-  const resolveCommand = useCallback((index: number): Command | undefined => {
-    const command = filteredCommands[index];
-    if (command) {
-      close();
-    }
-    return command;
-  }, [filteredCommands, pop]);
+  const resolveCommand = useCallback(
+    (index: number): Command | undefined => {
+      const command = filteredCommands[index];
+      if (command) {
+        close();
+      }
+      return command;
+    },
+    [filteredCommands, pop]
+  );
 
   // Keyboard
 

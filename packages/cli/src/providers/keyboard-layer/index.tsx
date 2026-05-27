@@ -1,11 +1,5 @@
-import React, {
-  createContext,
-  useContext,
-  useState,
-  useCallback,
-  useRef
-} from "react"
-import { useKeyboard, useRenderer } from "@opentui/react"
+import React, { createContext, useContext, useState, useCallback, useRef } from "react";
+import { useKeyboard, useRenderer } from "@opentui/react";
 
 type Responder = () => boolean;
 
@@ -14,7 +8,7 @@ type KeyboardLayerCtxValue = {
   pop: (id: string) => void;
   isTopLayer: (id: string) => boolean;
   setResponder: (id: string, responder: Responder | null) => void;
-}
+};
 
 const KeyboardLayerCtx = createContext<KeyboardLayerCtxValue | null>(null);
 
@@ -37,24 +31,22 @@ export function KeyboardLayerProvider({ children }: { children: React.ReactNode 
       }
 
       return [...prev, id];
-    })
-  }, [])
+    });
+  }, []);
 
   const pop = useCallback((id: string) => {
     responders.current.delete(id);
     setStack((prev) => prev.filter((layer) => layer !== id));
-  }, [])
+  }, []);
 
   const isTopLayer = useCallback(
     (id: string) => {
       return stack.length === 0 || stack[stack.length - 1] === id;
-    }, [stack]
-  )
+    },
+    [stack]
+  );
 
-  const setResponder = useCallback((
-    id: string,
-    responder: Responder | null
-  ) => {
+  const setResponder = useCallback((id: string, responder: Responder | null) => {
     if (responder) {
       responders.current.set(id, responder);
     } else {
@@ -73,18 +65,15 @@ export function KeyboardLayerProvider({ children }: { children: React.ReactNode 
         return;
       }
     }
-    renderer.destroy()
-  })
+    renderer.destroy();
+  });
 
   return (
-    <KeyboardLayerCtx.Provider
-      value={{ push, pop, isTopLayer, setResponder }}
-    >
+    <KeyboardLayerCtx.Provider value={{ push, pop, isTopLayer, setResponder }}>
       {children}
     </KeyboardLayerCtx.Provider>
-  )
+  );
 }
-
 
 export function useKeyboardLayer() {
   const ctx = useContext(KeyboardLayerCtx);

@@ -18,14 +18,14 @@ export function useDialog(): DialongContextValue {
     throw new Error("useDialog must be used within a DialogProvider");
   }
   return value;
-};
+}
 
 type DialogProviderProps = {
   children: ReactNode;
-}
+};
 
 export function DialogProvider({ children }: DialogProviderProps) {
-  const [currentDialog, setCurrentDialog] = useState<DialogConfig | null>(null)
+  const [currentDialog, setCurrentDialog] = useState<DialogConfig | null>(null);
   const { push, pop } = useKeyboardLayer();
 
   const close = useCallback(() => {
@@ -33,27 +33,28 @@ export function DialogProvider({ children }: DialogProviderProps) {
     pop("dialog");
   }, [pop]);
 
-  const open = useCallback((
-    config: DialogConfig
-  ) => {
-    setCurrentDialog(config);
-    push("dialog", () => {
-      close();
-      return true;
-    })
-  }, [push, close])
+  const open = useCallback(
+    (config: DialogConfig) => {
+      setCurrentDialog(config);
+      push("dialog", () => {
+        close();
+        return true;
+      });
+    },
+    [push, close]
+  );
 
   const value: DialongContextValue = {
     open,
-    close
-  }
+    close,
+  };
 
   return (
     <DialogContext.Provider value={value}>
       {children}
       <Dialog currentDialog={currentDialog} close={close} />
     </DialogContext.Provider>
-  )
+  );
 }
 
 type DialogProps = {
@@ -69,7 +70,7 @@ function Dialog({ currentDialog, close }: DialogProps) {
     if (!currentDialog || !isTopLayer("dialog")) return;
 
     if (key.name === "escape") {
-      close()
+      close();
     }
   });
 
@@ -116,10 +117,8 @@ function Dialog({ currentDialog, close }: DialogProps) {
             
           </text>
         </box>
-        <box flexGrow={1}>
-          {children}
-        </box>
+        <box flexGrow={1}>{children}</box>
       </box>
     </box>
-  )
+  );
 }

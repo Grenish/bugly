@@ -5,4 +5,4 @@ export const TEXTAREA_KEY_BINDINGS: KeyBinding[] = [
   { name: "enter", action: "submit" },
   { name: "return", shift: true, action: "newline" },
   { name: "enter", shift: true, action: "newline" },
-]
+];

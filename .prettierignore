@@ -1,0 +1,17 @@
+# Dependencies
+node_modules
+
+# Lockfiles — never reformat these
+bun.lock
+*.lock
+package-lock.json
+yarn.lock
+
+# Build outputs
+dist
+build
+out
+.next
+
+# Misc
+.gitignore

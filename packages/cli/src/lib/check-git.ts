@@ -18,10 +18,7 @@ export async function getCurrentBranch() {
     if (!isRepo) {
       return null;
     }
-    const branchName = await git.revparse([
-      "--abbrev-ref",
-      "HEAD"
-    ]);
+    const branchName = await git.revparse(["--abbrev-ref", "HEAD"]);
     return branchName.trim();
   } catch {
     return null;
