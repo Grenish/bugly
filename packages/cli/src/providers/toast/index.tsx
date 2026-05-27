@@ -43,8 +43,8 @@ export function ToastProvider({ children }: ToastProviderProps) {
 
 const VARIANT_COLORS: Record<ToastVariant, string> = {
   success: "#82E0AA",
-  error:   "#E74C5E",
-  info:    "#56D6C2",
+  error: "#E74C5E",
+  info: "#56D6C2",
 };
 
 type ToastProps = { currentToast: ToastOptions | null };

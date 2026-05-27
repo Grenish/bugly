@@ -34,7 +34,7 @@ export function DialogProvider({ children }: DialogProviderProps) {
   }, [pop]);
 
   const open = useCallback((
-  config: DialogConfig
+    config: DialogConfig
   ) => {
     setCurrentDialog(config);
     push("dialog", () => {

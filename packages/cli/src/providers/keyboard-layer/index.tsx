@@ -48,7 +48,7 @@ export function KeyboardLayerProvider({ children }: { children: React.ReactNode 
   const isTopLayer = useCallback(
     (id: string) => {
       return stack.length === 0 || stack[stack.length - 1] === id;
-    },[stack]
+    }, [stack]
   )
 
   const setResponder = useCallback((
@@ -78,7 +78,7 @@ export function KeyboardLayerProvider({ children }: { children: React.ReactNode 
 
   return (
     <KeyboardLayerCtx.Provider
-      value={{push, pop,isTopLayer, setResponder}}
+      value={{ push, pop, isTopLayer, setResponder }}
     >
       {children}
     </KeyboardLayerCtx.Provider>

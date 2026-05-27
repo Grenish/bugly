@@ -15,7 +15,7 @@ function App() {
     <KeyboardLayerProvider>
       <DialogProvider>
         <ToastProvider>
-          <box alignItems="center" justifyContent="center"  width={"100%"} height={"100%"} gap={2}>
+          <box alignItems="center" justifyContent="center" width={"100%"} height={"100%"} gap={2}>
             <Background />
             <Header />
             <box width={"100%"} maxWidth={80} paddingX={2}>
@@ -33,7 +33,7 @@ function App() {
           </box>
         </ToastProvider>
       </DialogProvider>
-   </KeyboardLayerProvider>
+    </KeyboardLayerProvider>
   );
 }
 
