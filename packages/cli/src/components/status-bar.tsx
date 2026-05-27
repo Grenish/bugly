@@ -28,9 +28,13 @@ export function StatusBar() {
       <box flexDirection="row" gap={1}>
         <text fg={"cyan"}>Build</text>
         <text attributes={TextAttributes.DIM} fg={"gray"}>
-          {">"}
+          
         </text>
         <text>gemini-3.1-pro</text>
+        <text>
+          󰧑
+        </text>
+        <text>High</text>
       </box>
       <box flexDirection="row" gap={1}>
         {isGitInit ? (
