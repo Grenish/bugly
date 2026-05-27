@@ -7,6 +7,9 @@ import { TextareaRenderable } from "@opentui/core";
 import { useRenderer } from "@opentui/react";
 import { useCommandMenu } from "./command-menu/useCommandMenu";
 import type { Command } from "./command-menu/types";
+import { useToast } from "../providers/toast";
+import { useKeyboardLayer } from "../providers/keyboard-layer";
+import { useDialog } from "../providers/dialog";
 
 type Props = {
   onSubmit: (text: string) => void;
@@ -17,6 +20,9 @@ export function InputBar({ onSubmit, disabled = false }: Props) {
   const textareaRef = useRef<TextareaRenderable>(null);
   const onSubmitRef = useRef<() => void>(() => { });
   const renderer = useRenderer();
+  const toast = useToast()
+  const dialog = useDialog()
+  const { setResponder, isTopLayer } = useKeyboardLayer();
 
   const {
     showCommandMenu,
@@ -39,11 +45,13 @@ export function InputBar({ onSubmit, disabled = false }: Props) {
     if (command.action) {
       command.action({
         exit: () => renderer.destroy(),
+        toast,
+        dialog,
       })
     } else {
       textarea.insertText(command.value + " ")
     }
-  }, [renderer])
+  }, [renderer, toast, dialog])
 
   const handleCommandExecute = useCallback((index: number) => {
     const command = resolveCommand(index);
@@ -90,6 +98,21 @@ export function InputBar({ onSubmit, disabled = false }: Props) {
     handleSubmit();
   }
 
+  useEffect(() => {
+    setResponder("base", () => {
+      if (disabled) return false;
+
+      const textarea = textareaRef.current;
+      if (textarea && textarea.plainText.length > 0) {
+        textarea.setText("");
+        return true;
+      }
+
+      return false;
+    })
+    return () => setResponder("base", null)
+  }, [disabled, setResponder])
+
   return (
     <box width={"100%"} alignItems="center">
       <Border borderColor="cyan" borderStyle="line" width={"100%"} position={["left"]}>
@@ -121,7 +144,7 @@ export function InputBar({ onSubmit, disabled = false }: Props) {
           )}
           <textarea
             ref={textareaRef}
-            focused={!disabled}
+            focused={!disabled && (isTopLayer("base") || isTopLayer("command"))}
             placeholder={"analyze the codebase and find vulnerability..."}
             keyBindings={TEXTAREA_KEY_BINDINGS}
             onContentChange={handleTextareaContentChange}
