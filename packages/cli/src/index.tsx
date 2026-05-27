@@ -1,31 +1,39 @@
 import { createCliRenderer, TextAttributes } from "@opentui/core";
 import { createRoot } from "@opentui/react";
 import { Header } from "./components/header";
-import { StatusBar } from "./components/status-bar";
 import { InputBar } from "./components/input-bar";
 import { Background } from "./components/background";
+import { ToastProvider } from "./providers/toast";
+import { KeyboardLayerProvider } from "./providers/keyboard-layer";
+import { DialogProvider } from "./providers/dialog";
 
 function App() {
 
   const name = "John";
 
   return (
-    <box alignItems="center" justifyContent="center"  width={"100%"} height={"100%"} gap={2}>
-      <Background />
-      <Header />
-      <box width={"100%"} maxWidth={80} paddingX={2}>
-        <box
-          paddingX={1}
-          flexDirection="row"
-          gap={1}
-        >
-          <text>Hello</text>
-          <text fg={"gray"} >{name}</text>
-          <text>What are we fixing today?</text>
-        </box>
-        <InputBar onSubmit={() => { }} />
-      </box>
-    </box>
+    <KeyboardLayerProvider>
+      <DialogProvider>
+        <ToastProvider>
+          <box alignItems="center" justifyContent="center"  width={"100%"} height={"100%"} gap={2}>
+            <Background />
+            <Header />
+            <box width={"100%"} maxWidth={80} paddingX={2}>
+              <box
+                paddingX={1}
+                flexDirection="row"
+                gap={1}
+              >
+                <text>Hello</text>
+                <text fg={"gray"} >{name}</text>
+                <text>What are we fixing today?</text>
+              </box>
+              <InputBar onSubmit={() => { }} />
+            </box>
+          </box>
+        </ToastProvider>
+      </DialogProvider>
+   </KeyboardLayerProvider>
   );
 }
 
