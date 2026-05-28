@@ -4,6 +4,7 @@ import { useTerminalDimensions } from "@opentui/react";
 import type { ToastOptions, ToastVariant } from "./types";
 import { DEFAULT_DURATION } from "./types";
 import { useTheme } from "../theme";
+import type { ThemeColors } from "../theme/types";
 
 export type ToastContextValue = {
   show: (options: ToastOptions) => void;
@@ -44,13 +45,38 @@ export function ToastProvider({ children }: ToastProviderProps) {
 
 type ToastProps = { currentToast: ToastOptions | null };
 
+const toastColorKeys = {
+  success: {
+    background: "toastSuccessBackground",
+    foreground: "toastSuccessForeground",
+  },
+  error: {
+    background: "toastErrorBackground",
+    foreground: "toastErrorForeground",
+  },
+  info: {
+    background: "toastInfoBackground",
+    foreground: "toastInfoForeground",
+  },
+} as const satisfies Record<
+  ToastVariant,
+  {
+    background: keyof ThemeColors;
+    foreground: keyof ThemeColors;
+  }
+>;
+
 function Toast({ currentToast }: ToastProps) {
   const { width } = useTerminalDimensions();
   const { colors } = useTheme();
 
   if (!currentToast) return null;
 
-  const borderColor = colors[currentToast.variant ?? "info"];
+  const variant = currentToast.variant ?? "info";
+  const colorKeys = toastColorKeys[variant];
+  const borderColor = colors[variant];
+  const backgroundColor = colors[colorKeys.background];
+  const foregroundColor = colors[colorKeys.foreground];
 
   return (
     <box
@@ -64,11 +90,11 @@ function Toast({ currentToast }: ToastProps) {
       width={Math.max(1, Math.min(60, width - 6))}
       paddingY={1}
       paddingX={2}
-      backgroundColor={colors.dialogSurface}
+      backgroundColor={backgroundColor}
       borderColor={borderColor}
       border={["left", "right"]}
     >
-      <text fg="#E1E1E1" wrapMode="word" width="100%">
+      <text fg={foregroundColor} wrapMode="word" width="100%">
         {currentToast.message}
       </text>
     </box>
