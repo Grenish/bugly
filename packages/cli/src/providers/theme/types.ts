@@ -9,6 +9,12 @@ export type ThemeColors = {
   background: string;
   surface: string;
   dialogSurface: string;
+  toastSuccessBackground: string;
+  toastSuccessForeground: string;
+  toastErrorBackground: string;
+  toastErrorForeground: string;
+  toastInfoBackground: string;
+  toastInfoForeground: string;
   thinkingBorder: string;
   dimSeparator: string;
   backdropLogo: string;
@@ -36,6 +42,12 @@ export const Themes: Theme[] = [
       background: "#0D0D12",
       surface: "#1A1A24",
       dialogSurface: "#1A1A1A",
+      toastSuccessBackground: "#123025",
+      toastSuccessForeground: "#D8FFE6",
+      toastErrorBackground: "#35151B",
+      toastErrorForeground: "#FFE2E6",
+      toastInfoBackground: "#102D2B",
+      toastInfoForeground: "#D7FFF9",
       dimSeparator: "#4A4A60",
       backdropLogo: "#C0C0D0",
     },
@@ -55,6 +67,12 @@ export const Themes: Theme[] = [
       background: "#0C0A0E",
       surface: "#1A1420",
       dialogSurface: "#150F1A",
+      toastSuccessBackground: "#162A1C",
+      toastSuccessForeground: "#E4F8E8",
+      toastErrorBackground: "#311818",
+      toastErrorForeground: "#FFE6E6",
+      toastInfoBackground: "#321B28",
+      toastInfoForeground: "#FFE6F2",
       dimSeparator: "#453058",
       backdropLogo: "#C890B0",
     },
@@ -74,6 +92,12 @@ export const Themes: Theme[] = [
       background: "#0A0D08",
       surface: "#141A0E",
       dialogSurface: "#111408",
+      toastSuccessBackground: "#273618",
+      toastSuccessForeground: "#F0FFD6",
+      toastErrorBackground: "#351C14",
+      toastErrorForeground: "#FFE8DE",
+      toastInfoBackground: "#222F16",
+      toastInfoForeground: "#F1FFD8",
       dimSeparator: "#3A4E28",
       backdropLogo: "#B0C890",
     },
