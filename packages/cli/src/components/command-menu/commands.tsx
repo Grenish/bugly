@@ -1,3 +1,4 @@
+import { ThemeDialogContent } from "../../providers/theme/theme-dialog";
 import type { Command } from "./types";
 
 export const COMMANDS: Command[] = [
@@ -5,6 +6,12 @@ export const COMMANDS: Command[] = [
     name: "new",
     description: "Start a fresh conversation",
     value: "/new",
+    action: (ctx) => {
+      ctx.toast.show({
+        message: "starting new conversation",
+        variant: "info",
+      });
+    },
   },
   {
     name: "login",
@@ -57,6 +64,18 @@ export const COMMANDS: Command[] = [
     name: "keybindings",
     description: "View and customize CLI keyboard shortcuts",
     value: "/keybindings",
+  },
+  {
+    name: "theme",
+    description: "Change the color theme",
+    value: "/theme",
+    action: (ctx) => {
+      ctx.dialog.open({
+        title: "Select Theme",
+        description: "Select or choose the downlaoded theme.",
+        children: <ThemeDialogContent />,
+      });
+    },
   },
   {
     name: "exit",
