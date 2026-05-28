@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 import { useTerminalDimensions } from "@opentui/react";
 import type { ToastOptions, ToastVariant } from "./types";
 import { DEFAULT_DURATION } from "./types";
+import { useTheme } from "../theme";
 
 export type ToastContextValue = {
   show: (options: ToastOptions) => void;
@@ -41,20 +42,15 @@ export function ToastProvider({ children }: ToastProviderProps) {
   );
 }
 
-const VARIANT_COLORS: Record<ToastVariant, string> = {
-  success: "#82E0AA",
-  error: "#E74C5E",
-  info: "#56D6C2",
-};
-
 type ToastProps = { currentToast: ToastOptions | null };
 
 function Toast({ currentToast }: ToastProps) {
   const { width } = useTerminalDimensions();
+  const { colors } = useTheme();
 
   if (!currentToast) return null;
 
-  const borderColor = VARIANT_COLORS[currentToast.variant ?? "info"];
+  const borderColor = colors[currentToast.variant ?? "info"];
 
   return (
     <box
@@ -68,7 +64,7 @@ function Toast({ currentToast }: ToastProps) {
       width={Math.max(1, Math.min(60, width - 6))}
       paddingY={1}
       paddingX={2}
-      backgroundColor="#1A1A1A"
+      backgroundColor={colors.dialogSurface}
       borderColor={borderColor}
       border={["left", "right"]}
     >
