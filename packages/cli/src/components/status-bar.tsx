@@ -2,11 +2,13 @@ import { TextAttributes } from "@opentui/core";
 import { useEffect, useState } from "react";
 import { getCurrentBranch, isGitAvailable } from "../lib/check-git";
 import { basename } from "path";
+import { useTheme } from "../providers/theme";
 
 export function StatusBar() {
   const [isGitInit, setIsGitInit] = useState(false);
   const [currentBranch, setCurrentBranch] = useState<string | null>(null);
   const [currentDir, setCurrentDir] = useState<string>("");
+  const { colors } = useTheme();
 
   useEffect(() => {
     const checkGit = async () => {
@@ -26,8 +28,8 @@ export function StatusBar() {
   return (
     <box flexDirection="row" justifyContent="space-between">
       <box flexDirection="row" gap={1}>
-        <text fg={"cyan"}>Build</text>
-        <text attributes={TextAttributes.DIM} fg={"gray"}>
+        <text fg={colors.primary}>Build</text>
+        <text attributes={TextAttributes.DIM} fg={colors.dimSeparator}>
           
         </text>
         <text>gemini-3.1-pro</text>
@@ -42,7 +44,7 @@ export function StatusBar() {
           <>
             <text>•</text>
             <text></text>
-            <text fg={"cyan"}>{currentBranch}</text>
+            <text fg={colors.primary}>{currentBranch}</text>
           </>
         )}
       </box>
