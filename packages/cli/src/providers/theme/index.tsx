@@ -1,40 +1,71 @@
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { homedir } from "node:os";
 import { join } from "node:path";
-import { createContext, useContext, useState, useCallback } from "react";
+import { createContext, useCallback, useContext, useMemo, useState } from "react";
 import type { ReactNode } from "react";
 import { DEFAULT_THEME, type ThemeColors, type Theme, Themes } from "./types";
 
-const CONFIG_DIR = join(homedir(), ".bugly");
-const THEME_PREFERENCE_PATH = join(CONFIG_DIR, "preferences.json");
+const BUGLY_HOME = process.env.BUGLY_HOME || join(homedir(), ".bugly");
+const CONFIG_PATH = join(BUGLY_HOME, "config.json");
+const LEGACY_PREFERENCES_PATH = join(BUGLY_HOME, "preferences.json");
 
-type ThemePreferences = {
-  themeName: string;
+type BuglyConfig = {
+  theme?: {
+    name?: string;
+    from?: string;
+  };
+  themeName?: string;
+  [key: string]: unknown;
 };
 
-function getInitialTheme(): Theme {
+function findTheme(config: BuglyConfig): Theme {
+  const themeName = config.theme?.name ?? config.themeName;
+  const themeFrom = config.theme?.from;
+
+  return (
+    Themes.find(
+      (theme) => theme.name === themeName && (themeFrom === undefined || theme.from === themeFrom)
+    ) ?? DEFAULT_THEME
+  );
+}
+
+function readConfigFile(path: string): BuglyConfig | null {
   try {
-    const preferences = JSON.parse(
-      readFileSync(THEME_PREFERENCE_PATH, "utf-8")
-    ) as Partial<ThemePreferences>;
-    const savedTheme = Themes.find((theme) => theme.name === preferences.themeName);
-    return savedTheme ?? DEFAULT_THEME;
+    const config = JSON.parse(readFileSync(path, "utf-8"));
+    if (!config || typeof config !== "object" || Array.isArray(config)) {
+      return null;
+    }
+    return config as BuglyConfig;
   } catch {
-    return DEFAULT_THEME;
+    return null;
   }
 }
 
-function persistTheme(theme: Theme) {
+function readConfig(): BuglyConfig {
+  return readConfigFile(CONFIG_PATH) ?? readConfigFile(LEGACY_PREFERENCES_PATH) ?? {};
+}
+
+function writeConfig(config: BuglyConfig) {
   try {
-    mkdirSync(CONFIG_DIR, { recursive: true });
-    writeFileSync(
-      THEME_PREFERENCE_PATH,
-      JSON.stringify({ themeName: theme.name } satisfies ThemePreferences, null, 2),
-      "utf-8"
-    );
+    mkdirSync(BUGLY_HOME, { recursive: true });
+    writeFileSync(CONFIG_PATH, JSON.stringify(config, null, 2), "utf-8");
   } catch {
-    // Ignore preference write failure so theme switching still works for this session.
+    // Ignore config write failures so theme switching still works for this session.
   }
+}
+
+function getInitialTheme(): Theme {
+  return findTheme(readConfig());
+}
+
+function persistTheme(theme: Theme) {
+  writeConfig({
+    ...readConfig(),
+    theme: {
+      name: theme.name,
+      from: theme.from,
+    },
+  });
 }
 
 type ThemeContextValue = {
@@ -53,11 +84,11 @@ export function useTheme(): ThemeContextValue {
   return value;
 }
 
-type ThemeProvderProps = {
+type ThemeProviderProps = {
   children: ReactNode;
 };
 
-export function ThemeProvider({ children }: ThemeProvderProps) {
+export function ThemeProvider({ children }: ThemeProviderProps) {
   const [currentTheme, setCurrentTheme] = useState<Theme>(getInitialTheme);
 
   const setTheme = useCallback((theme: Theme) => {
@@ -65,9 +96,10 @@ export function ThemeProvider({ children }: ThemeProvderProps) {
     persistTheme(theme);
   }, []);
 
-  return (
-    <ThemeContext.Provider value={{ colors: currentTheme.colors, currentTheme, setTheme }}>
-      {children}
-    </ThemeContext.Provider>
+  const value = useMemo(
+    () => ({ colors: currentTheme.colors, currentTheme, setTheme }),
+    [currentTheme, setTheme]
   );
+
+  return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>;
 }
