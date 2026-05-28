@@ -6,29 +6,46 @@ import { Background } from "./components/background";
 import { ToastProvider } from "./providers/toast";
 import { KeyboardLayerProvider } from "./providers/keyboard-layer";
 import { DialogProvider } from "./providers/dialog";
+import { ThemeProvider, useTheme } from "./providers/theme";
 
-function App() {
+function ThemeRoot() {
+  const { colors } = useTheme();
   const name = "John";
 
   return (
-    <KeyboardLayerProvider>
-      <DialogProvider>
-        <ToastProvider>
-          <box alignItems="center" justifyContent="center" width={"100%"} height={"100%"} gap={2}>
-            <Background />
-            <Header />
-            <box width={"100%"} maxWidth={80} paddingX={2}>
-              <box paddingX={1} flexDirection="row" gap={1}>
-                <text>Hello</text>
-                <text fg={"gray"}>{name}</text>
-                <text>What are we fixing today?</text>
-              </box>
-              <InputBar onSubmit={() => {}} />
-            </box>
-          </box>
-        </ToastProvider>
-      </DialogProvider>
-    </KeyboardLayerProvider>
+    <box
+      alignItems="center"
+      backgroundColor={colors.background}
+      justifyContent="center"
+      width={"100%"}
+      height={"100%"}
+      gap={2}
+    >
+      <Background />
+      <Header />
+      <box width={"100%"} maxWidth={80} paddingX={2}>
+        <box paddingX={1} flexDirection="row" gap={1}>
+          <text>Hello</text>
+          <text fg={"gray"}>{name}</text>
+          <text>What are we fixing today?</text>
+        </box>
+        <InputBar onSubmit={() => {}} />
+      </box>
+    </box>
+  );
+}
+
+function App() {
+  return (
+    <ThemeProvider>
+      <KeyboardLayerProvider>
+        <DialogProvider>
+          <ToastProvider>
+            <ThemeRoot />
+          </ToastProvider>
+        </DialogProvider>
+      </KeyboardLayerProvider>
+    </ThemeProvider>
   );
 }
 
