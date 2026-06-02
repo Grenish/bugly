@@ -4,6 +4,7 @@ import { findSupportedChatModel } from "@bugly/shared";
 import { z } from "zod";
 import { db } from "@bugly/database";
 import { Role, Mode, MessageStatus } from "@bugly/database/enums";
+import { logger } from "../lib/sentry";
 
 const createSessionSchema = z.object({
   title: z.string(),
@@ -18,6 +19,14 @@ const createSessionSchema = z.object({
 
 const createSessionValidator = zValidator("json", createSessionSchema, (result, c) => {
   if (!result.success) {
+    logger.warn("Session creation validation failed", {
+      path: c.req.path,
+      method: c.req.method,
+      issues: result.error.issues.map((issue) => ({
+        path: issue.path,
+        message: issue.message,
+      })),
+    });
     return c.json({ error: "Invalid request body" }, 400);
   }
 });
@@ -32,6 +41,10 @@ const app = new Hono()
         createdAt: true,
       },
     });
+    logger.info("Listed sessions", {
+      count: sessions.length,
+    });
+
     return c.json(sessions);
   })
   .get("/:id", async (c) => {
@@ -50,8 +63,15 @@ const app = new Hono()
     });
 
     if (!session) {
+      logger.warn("Session not found", {
+        sessionId: id,
+      });
       return c.json({ error: "Session not found" }, 404);
     }
+
+    logger.info("Loaded session", {
+      sessionId: id,
+    });
 
     return c.json(session);
   })
@@ -79,6 +99,11 @@ const app = new Hono()
       include: {
         messages: true,
       },
+    });
+
+    logger.info("Created session", {
+      sessionId: session.id,
+      messageCount: session.messages.length,
     });
 
     return c.json(session, 201);
