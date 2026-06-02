@@ -1,6 +1,12 @@
 {
   "version": 1,
   "skills": {
+    "hono-master": {
+      "source": "grenish/hono-master",
+      "sourceType": "github",
+      "skillPath": "SKILL.md",
+      "computedHash": "7dcdbac37a7979b57af2d91d1f22112069d313e8e7a0943503030e4d417c57cf"
+    },
     "opentui": {
       "source": "anomalyco/opentui",
       "sourceType": "github",
