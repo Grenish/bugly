@@ -15,11 +15,11 @@ const sessionLocationSchema = z.object({
 });
 
 function ChatMessage({ msg }: { msg: SessionData["messages"][number] }) {
-  if (msg.role === "user") {
+  if (msg.role === "USER") {
     return <UserMessage message={msg.content} />;
   }
 
-  if (msg.role === "error") {
+  if (msg.role === "ERROR") {
     return <ErrorMessage message={msg.content} description="Something went wrong." />;
   }
 
@@ -77,7 +77,7 @@ export function Session() {
 
   return (
     <SessionShell onSubmit={() => {}} inputDisabled>
-      {session.messages.map((message, index) => (
+      {session.messages.map((message) => (
         <ChatMessage key={message.id} msg={message} />
       ))}
     </SessionShell>
