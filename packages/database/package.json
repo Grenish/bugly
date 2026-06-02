@@ -10,5 +10,8 @@
     "db:generate": "bunx --bun prisma generate",
     "db:push": "bunx --bun prisma db push",
     "db:studio": "BROWSER=none bunx --bun prisma studio"
+  },
+  "dependencies": {
+    "dotenv": "^17.4.2"
   }
 }
