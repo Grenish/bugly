@@ -3,6 +3,7 @@ import { Header } from "../components/header";
 import { InputBar } from "../components/input-bar";
 import { useCallback } from "react";
 import { Background } from "../components/background";
+import { AgentGroup } from "../components/chat/agent-group";
 
 export function Home() {
   const navigate = useNavigate();
