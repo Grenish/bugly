@@ -7,6 +7,9 @@
   "scripts": {
     "dev:cli": "bun run --watch packages/cli/src/index.tsx",
     "dev:server": "bun run --hot packages/server/src/index.ts",
+    "db:generate": "bun --cwd packages/database prisma generate",
+    "db:push": "bun --cwd packages/database prisma db push",
+    "db:studio": "BROWSER=none bun --cwd packages/database prisma studio",
     "format": "prettier --write .",
     "format:check": "prettier --check ."
   },
